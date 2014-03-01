@@ -1,34 +1,50 @@
 class Tree
-  attr_accessor :left
-  attr_accessor :right
-  attr_accessor :data
+  attr_accessor :left, :right, :data
 
-  def initialize(x = nil)
-    @left = nil
-    @right = nil
-    @data = x
+  def initialize(data, left = nil, right = nil)
+    @left = left
+    @right = right
+    @data = data
   end
 
-  def insert(x)
-    if x < @data
-      @left.nil? ? @left = Tree.new(x) : @left.insert(x)
-    else
-      @right.nil? ? @right = Tree.new(x) : @right.insert(x)
-    end
+  def self.post_traverse(tree)
+    return if tree.nil?
+    post_traverse(tree.left)
+    post_traverse(tree.right)
+    print tree.data.to_s + ' - '
   end
 
-  def to_s
-    return if self.nil?
-    print data.to_s
-    @left.data.to_s unless @left.nil?
-    @right.data.to_s unless @right.nil?
+  def self.pre_traverse(tree)
+    return if tree.nil?
+    print tree.data.to_s + ' - '
+    pre_traverse(tree.left)
+    pre_traverse(tree.right)
+  end
+
+  def self.in_traverse(tree)
+    return if tree.nil?
+    in_traverse(tree.left)
+    print tree.data.to_s + ' - '
+    in_traverse(tree.right)
   end
 end
 
-tree = Tree.new('Tim')
-tree.insert('Jony')
-tree.insert('Phil')
-tree.insert('Dan')
-# tree.node('Jony').insert('Dan').insert('katie')
-# tree.traverse_preorder { |node| print "#{node.to_s}-"}
-puts tree.left.left
+peter = Tree.new('Peter')
+andrea = Tree.new('Andrea')
+katie = Tree.new('Katie',peter,andrea)
+jony = Tree.new('Jony',Tree.new('Dan'),katie)
+phil = Tree.new('Phil',Tree.new('Craig'),Tree.new('Eddie'))
+apple = Tree.new('Tim',jony,phil)
+
+print "Pre_traverse: "
+print Tree.pre_traverse(apple).to_s
+puts " "
+
+print "In_traverse: "
+print Tree.in_traverse(apple)
+puts " "
+
+print "Post_traverse: "
+print Tree.post_traverse(apple)
+puts " "
+
